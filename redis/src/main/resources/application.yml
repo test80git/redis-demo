@@ -6,22 +6,46 @@ spring:
     username: redis
     password: password
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+
+#  liquibase:
+#    enabled: false
+#    change-log: classpath:/db/changelog/db.changelog-master.yaml
+#    drop-first: false  # НЕ меняйте на true в production!
+#    default-schema: public
+#    liquibase-schema: public
+#    contexts: development
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      continue-on-error: false
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 20
+#        order_inserts: true
+#        order_updates: true
     show-sql: true
-
-server:
-  port: 8080
+    open-in-view: false  # Отключите для лучшей производительности
 
 logging:
   level:
     ru.ekp.redis: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#    liquibase: INFO  # Измените на INFO для большей информации
+#    org.springframework.boot.autoconfigure.liquibase: DEBUG
 
 management:
   endpoints:
@@ -52,3 +76,6 @@ management:
         http.server.requests: true
     tags:
       application: redis-srv
+
+server:
+  port: 8080
