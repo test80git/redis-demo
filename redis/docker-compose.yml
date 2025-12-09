@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: redis-postgres
+    environment:
+      POSTGRES_DB: redis_db
+      POSTGRES_USER: redis
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - redis-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: redis-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@insurance.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    networks:
+      - redis-network
+
+volumes:
+  postgres_data:
+
+networks:
+  redis-network:
+    driver: bridge
