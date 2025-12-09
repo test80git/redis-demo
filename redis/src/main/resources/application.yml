@@ -10,7 +10,27 @@ spring:
       connection-timeout: 30000
       maximum-pool-size: 10
 
-#  liquibase:
+  # Redis конфигурация
+  data:
+    redis:
+      host: localhost
+      port: 6380
+      username: my_user
+      password:  redis
+      timeout: 2000ms
+      connect-timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+      # Для кластера (если нужно):
+      # cluster:
+      #   nodes: localhost:6379,localhost:6380,localhost:6381
+
+
+  #  liquibase:
 #    enabled: false
 #    change-log: classpath:/db/changelog/db.changelog-master.yaml
 #    drop-first: false  # НЕ меняйте на true в production!
@@ -18,17 +38,17 @@ spring:
 #    liquibase-schema: public
 #    contexts: development
 
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
-      continue-on-error: false
+#  sql:
+#    init:
+#      mode: always
+#      schema-locations: classpath:schema.sql
+#      data-locations: classpath:data.sql
+#      continue-on-error: false
 
   jpa:
     hibernate:
       ddl-auto: none
-    defer-datasource-initialization: true
+#    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
@@ -38,6 +58,15 @@ spring:
 #        order_updates: true
     show-sql: true
     open-in-view: false  # Отключите для лучшей производительности
+
+# Конфигурация кэша
+cache:
+  redis:
+#    ttl: 300  # Время жизни кэша в секундах (5 минут)
+    ttl: 20  # Время жизни кэша в секундах (10 s)
+    keys:
+      article: "article:"
+
 
 logging:
   level:
