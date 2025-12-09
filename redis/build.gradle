@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.0'
+    id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -22,19 +22,37 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+//    implementation 'org.liquibase:liquibase-core'
+
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // Jackson для сериализации
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // ТЕСТОВЫЕ ЗАВИСИМОСТИ
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//    testImplementation 'org.springframework.boot:spring-boot-starter-web-test'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
 //    testImplementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    testCompileOnly 'org.projectlombok:lombok'
+//    testRuntimeOnly 'org.postgresql:postgresql'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     // Мониторинг и метрики
