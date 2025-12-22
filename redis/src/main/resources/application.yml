@@ -18,12 +18,12 @@ spring:
 #    liquibase-schema: public
 #    contexts: development
 
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:schema.sql
-      data-locations: classpath:data.sql
-      continue-on-error: false
+#  sql:
+#    init:
+#      mode: always
+#      schema-locations: classpath:schema.sql
+#      data-locations: classpath:data.sql
+#      continue-on-error: false
 
   jpa:
     hibernate:
